@@ -13,12 +13,12 @@ def parse_page():
 
         driver.get("https://steamstat.us/")
 
-        driver.implicitly_wait(5)
+        # driver.implicitly_wait(15)
 
         page_source = driver.page_source
 
         soup = BeautifulSoup(page_source, "html.parser")
-
+        print(soup)
         cm_country_id = [
             'seo', 'tyo', 'hkg', 'gua', 'sha', 'tia', 'chd'
         ]
@@ -45,22 +45,6 @@ def parse_page():
         if all(status != "N/A" for status in cm_server_statuses.values()):
             return cm_server_statuses
 
-        time.sleep(10)
-
     return cm_server_statuses
 
-def reload_page(background_tasks, max_retry=3):
-    current_retry = 0
-    while current_retry <= max_retry:
-        current_status = parse_page()
-        
-        if all(status != "N/A" for status in current_status.values()):
-            background_tasks.add_task(set_current_status, current_status)
-            break
-
-        current_retry += 1
-        print(f"Retrying ({current_retry}/{max_retry})...")
-        time.sleep(60)
-
-def set_current_status(current_status):
-    print("Setting current status:", current_status)
+print(parse_page())

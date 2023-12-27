@@ -18,19 +18,23 @@ def status_parser():
     driver.get(url)
 
     wait = WebDriverWait(driver, 5)
-    time.sleep(1)
+    time.sleep(2)
+
+    status = {}
 
     elements = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "regions")))
+    for element in elements:
+        lines = element.text.split('\n')
+        for line in lines:
+            print(line)
 
-    
-    info = {}  
-    server_container = ['Europe', 'Americas', 'Asia', 'Rest_of_world']
 
-    for server, element in zip(server_container, elements):
-        text_without_newline = element.text.replace('\n', ' ')
-        info[server] = text_without_newline.split()
 
-    return info
+
+
+        
+
+    # return lst
 
 from pprint import pprint
 print(status_parser())

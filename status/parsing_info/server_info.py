@@ -3,10 +3,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-def status_parser(wait):
+# def server_status(wait):
 
-    elements = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "regions")))
-
+    # elements = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "regions")))
+def server_status(elements):
+    
     result = {}
     regions_list = ['Europe','Americas','Asia','Rest of world']
 

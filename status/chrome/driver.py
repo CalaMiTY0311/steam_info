@@ -1,9 +1,21 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+
+# from selenium.webdriver.chrome.service import Service
+# from webdriver_manager.chrome import ChromeDriverManager
+
 import time
 
 def on_chrome():
-    driver = webdriver.Chrome()
+    
+    # service = Service(executable_path=ChromeDriverManager().install())
+
+    # options = webdriver.ChromeOptions()
+    # options.add_argument("headless")
+    
+    driver = webdriver.Chrome(
+        # options=options
+        )
 
     url = "https://steamstat.us/"
 

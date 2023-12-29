@@ -5,17 +5,21 @@ from fastapi.responses import JSONResponse
 
 import time
 
+
+
 app = FastAPI()
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-from status.cm_status import parse_page
+from status.chrome.driver import on_chrome
+from status.server_status import status_parser
 
 @app.get("/status")
 async def get_status():
-    result = parse_page()
+    wait = on_chrome()
+    result = status_parser(wait)
     return result
 
 if __name__ == "__main__":

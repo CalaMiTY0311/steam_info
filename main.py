@@ -14,12 +14,17 @@ def read_root():
     return {"Hello": "World"}
 
 from status.chrome.driver import on_chrome
-from status.server_status import status_parser
+from status.parsing_info.elements import elements
+from status.parsing_info.server_info import server_status
+from status.parsing_info.server_users_info import steam_users_num
 
 @app.get("/status")
 async def get_status():
     wait = on_chrome()
-    result = status_parser(wait)
+    server,onlines,ingames= elements(wait)
+    result = {}
+    result['users'] = steam_users_num(onlines,ingames)
+    result['server'] = server_status(server)
     return result
 
 if __name__ == "__main__":

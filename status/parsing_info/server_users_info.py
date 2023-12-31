@@ -3,10 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-def steam_users_num(wait):
+def steam_users_num(onlines, ingames):
 
-    onlines = wait.until(EC.presence_of_all_elements_located((By.ID, "online")))
-    ingames = wait.until(EC.presence_of_all_elements_located((By.ID, "ingame")))
+    # onlines = wait.until(EC.presence_of_all_elements_located((By.ID, "online")))
+    # ingames = wait.until(EC.presence_of_all_elements_located((By.ID, "ingame")))
 
     online_ingame = []
     for online in onlines:

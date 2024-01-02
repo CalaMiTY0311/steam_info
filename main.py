@@ -1,7 +1,10 @@
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.responses import JSONResponse
 
-# from status.cm_status import parse_page
+import os
+import requests
+from dotenv import load_dotenv
+import dotenv
 
 import time
 
@@ -13,19 +16,43 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-from status.chrome.driver import on_chrome
-from status.parsing_info.elements import elements
-from status.parsing_info.server_info import server_status
-from status.parsing_info.server_users_info import steam_users_num
+#steamstat.us에서 CM과 CS2 서버 상태를 파싱해오는 코드 (밑에 주석만 해제하면 postman으로 조회가능)
+# #--------------------------------------------------------------------- parsing steamstat ---------------------------------------------------------------------
+# from status_parsing.chrome.driver import on_chrome
+# from status_parsing.parsing_info.elements import elements
+# from status_parsing.parsing_info.server_info import server_status
+# from status_parsing.parsing_info.server_users_info import steam_users_num
 
-@app.get("/status")
-async def get_status():
-    wait = on_chrome()
-    server,onlines,ingames= elements(wait)
-    result = {}
-    result['users'] = steam_users_num(onlines,ingames)
-    result['server'] = server_status(server)
-    return result
+# @app.get("/status")
+# async def status():
+#     wait = on_chrome()
+    
+#     server,onlines,ingames= elements(wait)
+#     result = {}
+#     result['users'] = steam_users_num(onlines,ingames)
+#     result['server'] = server_status(server)
+#     return result
+# #--------------------------------------------------------------------- parsing steamstat ---------------------------------------------------------------------
+
+from CS2_server_status.CS2 import CS2_server
+
+@app.get("/CS2_Server_Status")
+def CS2_Server_Status():
+    try:
+        dotenv_file = dotenv.find_dotenv()
+        dotenv.load_dotenv(dotenv_file)
+        api_key = dotenv.dotenv_values(dotenv_file)['STEAM_WEPAPI_KEY']
+        return CS2_server(api_key)
+    except Exception as e:
+        return {"error" : str(e)}
+
+
+
+
+
+# @app.get("/event_info")
+# async def event_info():
+
 
 if __name__ == "__main__":
     import uvicorn

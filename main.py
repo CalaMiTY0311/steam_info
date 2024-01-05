@@ -35,6 +35,8 @@ def read_root():
 # #--------------------------------------------------------------------- parsing steamstat ---------------------------------------------------------------------
 
 from CS2_server_status.CS2 import CS2_server
+from event_parsing.events import sales
+from event_parsing.chrome import on_chrome
 
 @app.get("/CS2_Server_Status")
 def CS2_Server_Status():
@@ -47,11 +49,14 @@ def CS2_Server_Status():
         return {"error" : str(e)}
 
 
-
-
-
-# @app.get("/event_info")
-# async def event_info():
+@app.get("/event_info")
+def event_info():
+    try:
+        wait = on_chrome()
+        result = sales(wait)
+        return result
+    except Exception as e:
+        return {"error" : str(e)}
 
 
 if __name__ == "__main__":

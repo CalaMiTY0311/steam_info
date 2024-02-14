@@ -41,14 +41,16 @@ from event_parsing.chrome import on_chrome
 @app.get("/CS2_Server_Status")
 def CS2_Server_Status():
     try:
-        dotenv_file = dotenv.find_dotenv()
-        dotenv.load_dotenv(dotenv_file)
-        api_key = dotenv.dotenv_values(dotenv_file)['STEAM_WEPAPI_KEY']
+        # dotenv_file = dotenv.find_dotenv()
+        # dotenv.load_dotenv(dotenv_file)
+        # api_key = dotenv.dotenv_values(dotenv_file)['STEAM_WEPAPI_KEY']
+        api_key = os.getenv('STEAM_WEPAPI_KEY')
         return CS2_server(api_key)
     except Exception as e:
         return {"error" : str(e)}
 
 
+#
 @app.get("/event_info")
 def event_info():
     try:
@@ -61,4 +63,4 @@ def event_info():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
+    uvicorn.run(app, host="127.0.0.1", port=8080, log_level="info")

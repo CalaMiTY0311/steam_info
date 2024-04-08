@@ -1,16 +1,14 @@
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.responses import JSONResponse
 
-import os
-import requests
-from dotenv import load_dotenv
+from apis.cs2servers import cs2status
+
 import dotenv
 
 import time
 
-
-
 app = FastAPI()
+app.include_router(cs2status)
 
 @app.get("/")
 def read_root():
@@ -34,31 +32,31 @@ def read_root():
 #     return result
 # #--------------------------------------------------------------------- parsing steamstat ---------------------------------------------------------------------
 
-from CS2_server_status.CS2 import CS2_server
-from event_parsing.events import sales
-from event_parsing.chrome import on_chrome
+# from steam_info.apis.cs2servers import CS2_server
+# from event_parsing.events import sales
+# from event_parsing.chrome import on_chrome
 
-@app.get("/CS2_Server_Status")
-def CS2_Server_Status():
-    try:
-        # dotenv_file = dotenv.find_dotenv()
-        # dotenv.load_dotenv(dotenv_file)
-        # api_key = dotenv.dotenv_values(dotenv_file)['STEAM_WEPAPI_KEY']
-        api_key = os.getenv('STEAM_WEPAPI_KEY')
-        return CS2_server(api_key)
-    except Exception as e:
-        return {"error" : str(e)}
+# @app.get("/CS2_Server_Status")
+# def CS2_Server_Status():
+#     try:
+#         # dotenv_file = dotenv.find_dotenv()
+#         # dotenv.load_dotenv(dotenv_file)
+#         # api_key = dotenv.dotenv_values(dotenv_file)['STEAM_WEPAPI_KEY']
+#         api_key = os.getenv('STEAM_WEPAPI_KEY')
+#         return CS2_server(api_key)
+#     except Exception as e:
+#         return {"error" : str(e)}
 
 
-#
-@app.get("/event_info")
-def event_info():
-    try:
-        wait = on_chrome()
-        result = sales(wait)
-        return result
-    except Exception as e:
-        return {"error" : str(e)}
+# #
+# @app.get("/event_info")
+# def event_info():
+#     try:
+#         wait = on_chrome()
+#         result = sales(wait)
+#         return result
+#     except Exception as e:
+#         return {"error" : str(e)}
 
 
 if __name__ == "__main__":

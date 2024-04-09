@@ -14,5 +14,14 @@ api_key = os.environ.get('api_key')
 def status():
     url = f"https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key={api_key}"
     response = requests.get(url)
-    info = response.json()
-    return info
+    response = response.json()['result']
+
+    # datacenters
+    centers = response['datacenters']
+
+
+    matchmaking_info = response['matchmaking']
+    
+    
+
+    return response
